@@ -1,0 +1,20 @@
+{
+  "name": "codeurs/imagehelper",
+  "description": "A wrapper around the popular Intervention Image php library, for common image manipulations extended with caching.",
+  "authors": [
+    {
+      "name": "Codeurs",
+      "email": "info@codeurs.be"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.3.0",
+    "intervention/image": "^2.3"
+  },
+  "autoload": {
+    "psr-0": {
+      "ImageHelper": "src/"
+    }
+  }
+}
