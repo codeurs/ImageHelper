@@ -1,8 +1,12 @@
 <?php
 
+namespace Codeurs;
+
 use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageHelper{
+    private static $cacheFolder;
+
     private $image;
     private $quality;
 
@@ -12,6 +16,10 @@ class ImageHelper{
 
     private $handler;
     private $operations = [];
+
+    public static function setCacheFolder($folder){
+        static::$cacheFolder = $folder;
+    }
 
     /** @return ImageHelper */
     public static function fromCMS($handler){
@@ -35,7 +43,10 @@ class ImageHelper{
     public function resize($width, $height, $preventUpsize = true){
         if(!$width && !$height) throw new Exception("Either width or height has to be defined");
 
-        $this->path .= '_resize' . ($width?$width:'a') . 'x' . ($height?$height:'a');
+        $this->path .= '_resize';
+        $this->path .= ($width?$width:'a') . 'x' . ($height?$height:'a');
+        if(!$preventUpsize) $this->path .= '_u';
+
         $this->operations[] = function($im) use ($width, $height, $preventUpsize){
             return $im->resize($width, $height,  function ($constraint) use($preventUpsize) {
                 $constraint->aspectRatio();
@@ -102,9 +113,10 @@ class ImageHelper{
     }
 
     public function src(){
-        $finalPath = 'cache/images/' . $this->path . '.' . $this->extension;
-        $filePath = $this->pathToDir($finalPath);
+        if(!static::$cacheFolder) throw new \Exception("Cache folder is not specified");
 
+        $finalPath = static::$cacheFolder . $this->path . '.' . $this->extension;
+        $filePath = $this->pathToDir($finalPath);
 
         if(!file_exists($filePath)){
             //If not in cache -> apply operations
@@ -115,7 +127,7 @@ class ImageHelper{
             $this->image->save($filePath);
         }
 
-        return '/' . $finalPath;
+        return $finalPath;
     }
 
     private function pathToDir($path){
