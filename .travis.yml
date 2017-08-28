@@ -16,4 +16,4 @@ install:
   - composer install
 
 script:
-  - composer exec peridot tests/tests.php
+  - composer exec peridot -v tests/tests.php
