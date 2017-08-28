@@ -37,7 +37,7 @@ class ImageHelper{
     }
 
     public function __construct($path, $quality = null){
-        $this->quality = $quality ? $quality : $defaultQuality;
+        $this->quality = $quality ? $quality : static::$defaultQuality;
         $this->originalPath = $path;
         $this->extension = pathinfo($path, PATHINFO_EXTENSION);
         $pathPieces = explode('/', rtrim($path, '/'));
@@ -111,10 +111,6 @@ class ImageHelper{
             return Image::make($src);
         };
         return $this;
-    }
-
-    public function size(){
-        return null;
     }
 
     public function src(){
