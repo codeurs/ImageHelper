@@ -13,7 +13,7 @@ matrix:
     - php: nightly
 
 install:
-  - composer install
+  - composer install --prefer-source
 
 script:
   - composer exec peridot -v tests/tests.php
