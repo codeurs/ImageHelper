@@ -6,6 +6,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageHelper{
     private static $cacheFolder;
+    private static $defaultQuality = 65;
 
     private $image;
     private $quality;
@@ -21,6 +22,10 @@ class ImageHelper{
         static::$cacheFolder = $folder;
     }
 
+    public static function setDefaultQuality($quality){
+        static::$defaultQuality = $quality;
+    }
+
     /** @return ImageHelper */
     public static function fromCMS($handler){
         return new ImageHelper(str_replace('/admin/', 'admin/', $handler->src()));
@@ -31,8 +36,8 @@ class ImageHelper{
         return new ImageHelper($path);
     }
 
-    public function __construct($path, $quality = 65){
-        $this->quality = $quality;
+    public function __construct($path, $quality = null){
+        $this->quality = $quality ? $quality : $defaultQuality;
         $this->originalPath = $path;
         $this->extension = pathinfo($path, PATHINFO_EXTENSION);
         $pathPieces = explode('/', rtrim($path, '/'));
