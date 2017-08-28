@@ -11,7 +11,7 @@ use Codeurs\ImageHelper;
 // Set the cache folder location
 ImageHelper::setCacheFolder('cache/images');
 
-// Resize an image and returned the cached file location
+// Resize an image and return the cached file location
 $src = ImageHelper::fromPath('assets/image.png')
   ->resize(320, 240)
   ->src();
